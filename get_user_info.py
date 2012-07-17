@@ -67,25 +67,26 @@ def getroles(token, tenant):
 class tests():
     pass
 
-def generate_auth_wo_spec_tenant_tests(cls):
+def generate_test_auth_wo_spec_tenant(cls):
     for u in users:
-        def test_auth_wo_spec_tenant_user(self, username = u, password = users[u]['password']):
-            print '(' + username, password + ')'
-            #return gettoken(username, password)
-        test_auth_wo_spec_tenant_user.__doc__ = "Authorization without specifying tenant for " + u
-        test_auth_wo_spec_tenant_user.__name__ = "test_auth_wo_spec_tenant_" + u
-        setattr(cls, test_auth_wo_spec_tenant_user.__name__, test_auth_wo_spec_tenant_user)
-        #test_auth_wo_spec_tenant_user()
+        def test_auth_wo_spec_tenant(self, username = u, password = users[u]['password']):
+            return gettoken(username, password)
+        test_auth_wo_spec_tenant.__doc__ = "Authorization without specifying tenant for " + u
+        test_auth_wo_spec_tenant.__name__ += "_" + u
+        setattr(cls, test_auth_wo_spec_tenant.__name__, test_auth_wo_spec_tenant)
         
     
 def main():
-    generate_auth_wo_spec_tenant_tests(tests)
+    generate_test_auth_wo_spec_tenant(tests)
     ts = tests()
     #print tests.__dict__
     for t in tests.__dict__:
         if not t.startswith("__"):
-            print getattr(tests, t), '(' + getattr(tests, t).__doc__ + ')',
-            getattr(tests, t) (ts)
+            print  '(' + getattr(tests, t).__doc__ + ')', 
+            try:
+                print getattr(tests, t)(ts)['access']['token']['id']
+            except:
+                print "None"
 
 if __name__ == '__main__':
     main()
