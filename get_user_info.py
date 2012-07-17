@@ -6,45 +6,10 @@ import urllib2
 import json
 #from copy import deepcopy
 
-service_url = 'http://172.18.67.57:5000/v2.0/'
-#admin_token = 'JOPxsy8WmrFEiTxR_b_w'
+from config import * 
 
 headers = {'Content-Type': 'application/json',
            'Accept': 'application/json'}
-
-users={
-       'ga': {'password':'Mirantis123',
-        'roles':{'g':'admin','t1':None,'t2':None}
-        },
-       'gm': {'password':'Mirantis123',
-        'roles':{'g':'member','t1':None,'t2':None}
-        },
-       't1a': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'admin','t2':None}
-        },
-       't1m': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'member','t2':None}
-        },
-       't2a': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':None,'t2':'admin'}
-        },
-       't2m': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':None,'t2':'member'}
-        },
-       'gat1m': {'password':'Mirantis123',
-        'roles':{'g':'admin','t1':'member','t2':None}
-        },
-       'gmt1a': {'password':'Mirantis123',
-        'roles':{'g':'member','t1':'admin','t2':None}
-        },
-       't1at2m': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'admin','t2':'member'}
-        },
-       't1mt2a': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'member','t2':'admin'}
-        },
-       }
-tenants = ('t1', 't2', 't3') 
 
 
 def postreq(url, body, headers):
