@@ -64,67 +64,67 @@ def getroles(token, tenant):
     except:
         return None
 
-
-print "===== Authorization with specifying a tenant ======"
-tokens = {}
-tenant_tokens = {}
-for u in users:
-    print u,
-    for t in tenants:
-        tokens[u] = gettoken(u, users[u]['password'], t)
+def main():
+    print "===== Authorization with specifying a tenant ======"
+    tokens = {}
+    tenant_tokens = {}
+    for u in users:
+        print u,
+        for t in tenants:
+            tokens[u] = gettoken(u, users[u]['password'], t)
+            if tokens[u]:
+                user_id = tokens[u]['access']['user']['id']
+                tenant_id = tokens[u]['access']['token']['tenant']['id']
+                token_id = tokens[u]['access']['token']['id']
+                #tokens[u]['token_tenants'] = gettenants(tokens[u])
+                print '\t(' + tenant_id + ')', "OK",
+            else:
+                print '\t(' + t + ')', "None",
+        print
+    #print tokens
+    
+    print "===== Authorization without specifying a tenant ======"
+    tokens = {}
+    tenant_tokens = {}
+    for u in users:
+        tokens[u] = gettoken(u, users[u]['password'])
         if tokens[u]:
             user_id = tokens[u]['access']['user']['id']
-            tenant_id = tokens[u]['access']['token']['tenant']['id']
-            token_id = tokens[u]['access']['token']['id']
-            #tokens[u]['token_tenants'] = gettenants(tokens[u])
-            print '\t(' + tenant_id + ')', "OK",
+            print user_id, '\tOK'
         else:
-            print '\t(' + t + ')', "None",
-    print
-#print tokens
-
-print "===== Authorization without specifying a tenant ======"
-tokens = {}
-tenant_tokens = {}
-for u in users:
-    tokens[u] = gettoken(u, users[u]['password'])
-    if tokens[u]:
-        user_id = tokens[u]['access']['user']['id']
-        print user_id, '\tOK'
-    else:
-        print u, "\tNone"
-
-print "===== Accessible tenants for each user ======"
-tokens = {}
-tenant_tokens = {}
-for u in users:
-    tokens[u] = gettoken(u, users[u]['password'])
-    if tokens[u]:
-        user_id = tokens[u]['access']['user']['id']
-        tokens[u]['tenants'] = gettenants(tokens[u])
-        print user_id, '(', 
-        for t in tokens[u]['tenants']:
-            print t['id'],
-        print ')'
-    else:
-        print u, "\tNone\t"
-
-print "===== Roles in tenants for each user ======"
-tokens = {}
-tenant_tokens = {}
-for u in users:
-    tokens[u] = gettoken(u, users[u]['password'])
-    if tokens[u]:
-        user_id = tokens[u]['access']['user']['id']
-        tokens[u]['tenants'] = gettenants(tokens[u])
-        print user_id, 
-        for t in tokens[u]['tenants']:
-            t['roles'] = getroles(tokens[u], t) 
-            print '(' + t['id'], 
-            for r in t['roles']['access']['user']['roles']:
-                print '[' + r['id'] + ']',
-            print ')', 
-        print
-    else:
-        print u, "\tNone"
-
+            print u, "\tNone"
+    
+    print "===== Accessible tenants for each user ======"
+    tokens = {}
+    tenant_tokens = {}
+    for u in users:
+        tokens[u] = gettoken(u, users[u]['password'])
+        if tokens[u]:
+            user_id = tokens[u]['access']['user']['id']
+            tokens[u]['tenants'] = gettenants(tokens[u])
+            print user_id, '(', 
+            for t in tokens[u]['tenants']:
+                print t['id'],
+            print ')'
+        else:
+            print u, "\tNone\t"
+    
+    print "===== Roles in tenants for each user ======"
+    tokens = {}
+    tenant_tokens = {}
+    for u in users:
+        tokens[u] = gettoken(u, users[u]['password'])
+        if tokens[u]:
+            user_id = tokens[u]['access']['user']['id']
+            tokens[u]['tenants'] = gettenants(tokens[u])
+            print user_id, 
+            for t in tokens[u]['tenants']:
+                t['roles'] = getroles(tokens[u], t) 
+                print '(' + t['id'], 
+                for r in t['roles']['access']['user']['roles']:
+                    print '[' + r['id'] + ']',
+                print ')', 
+            print
+        else:
+            print u, "\tNone"
+    
