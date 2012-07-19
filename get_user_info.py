@@ -65,6 +65,8 @@ def getroles(token, tenant):
         return None
 
 def main():
+    '''Manual tests. Deprecated'''
+    exit()
     print "===== Authorization with specifying a tenant ======"
     tokens = {}
     tenant_tokens = {}

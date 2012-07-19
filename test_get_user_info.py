@@ -1,11 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-'''
-Created on 19.07.2012
 
-@author: mrasskazov
-'''
 import unittest
 
 import config
