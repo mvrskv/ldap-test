@@ -64,7 +64,6 @@ def getroles(token, tenant):
     except:
         return None
 
-<<<<<<< HEAD
 def main():
     print "===== Authorization with specifying a tenant ======"
     tokens = {}
@@ -129,32 +128,5 @@ def main():
         else:
             print u, "\tNone"
     
-=======
-class tests():
-    pass
-
-def generate_test_auth_wo_spec_tenant(cls):
-    for u in users:
-        def test_auth_wo_spec_tenant(self, username = u, password = users[u]['password']):
-            return gettoken(username, password)
-        test_auth_wo_spec_tenant.__doc__ = "Authorization without specifying tenant for " + u
-        test_auth_wo_spec_tenant.__name__ += "_" + u
-        setattr(cls, test_auth_wo_spec_tenant.__name__, test_auth_wo_spec_tenant)
-        
-    
-def main():
-    generate_test_auth_wo_spec_tenant(tests)
-    ts = tests()
-    #print tests.__dict__
-    for t in tests.__dict__:
-        if not t.startswith("__"):
-            print  '(' + getattr(tests, t).__doc__ + ')', 
-            try:
-                print getattr(tests, t)(ts)['access']['token']['id']
-            except:
-                print "None"
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
-
->>>>>>> 4687473771ea9a21699426a4b485417ee66f57e5

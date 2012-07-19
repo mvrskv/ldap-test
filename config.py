@@ -15,7 +15,7 @@ service_url = 'http://172.18.67.57:5000/v2.0/'
 # ) 
 #===============================================================================
 
-tenants = ('t1', 't2', 't3') 
+tenants = ('t1', 't2') 
 
 
 #===============================================================================
@@ -36,14 +36,14 @@ tenants = ('t1', 't2', 't3')
 
 users={
         # Global admin
-        'ga': {'password':'Mirantis123',
-        'roles':{'g':'admin','t1':None,'t2':None}
-        },
-        # Global member
-        'gm': {'password':'Mirantis123',
-        'roles':{'g':'member','t1':None,'t2':None}
-        },
-        #Admin in t1 tenant
+        #-------------------------------------- 'ga': {'password':'Mirantis123',
+        #----------------------------- 'roles':{'g':'admin','t1':None,'t2':None}
+        #-------------------------------------------------------------------- },
+        #------------------------------------------------------- # Global member
+        #-------------------------------------- 'gm': {'password':'Mirantis123',
+        #---------------------------- 'roles':{'g':'member','t1':None,'t2':None}
+        #-------------------------------------------------------------------- },
+        # Admin in t1 tenant
        't1a': {'password':'Mirantis123',
         'roles':{'g':None,'t1':'admin','t2':None}
         },
@@ -59,14 +59,14 @@ users={
        't2m': {'password':'Mirantis123',
         'roles':{'g':None,'t1':None,'t2':'member'}
         },
-        # Global admin and member in t1 tenant
-        'gat1m': {'password':'Mirantis123',
-        'roles':{'g':'admin','t1':'member','t2':None}
-        },
-        # Global member and admin in t1 tenant
-        'gmt1a': {'password':'Mirantis123',
-        'roles':{'g':'member','t1':'admin','t2':None}
-        },
+        #-------------------------------- # Global admin and member in t1 tenant
+        #----------------------------------- 'gat1m': {'password':'Mirantis123',
+        #------------------------- 'roles':{'g':'admin','t1':'member','t2':None}
+        #-------------------------------------------------------------------- },
+        #-------------------------------- # Global member and admin in t1 tenant
+        #----------------------------------- 'gmt1a': {'password':'Mirantis123',
+        #------------------------- 'roles':{'g':'member','t1':'admin','t2':None}
+        #-------------------------------------------------------------------- },
         # Admin in t1 tenant and member in t2 tenant
        't1at2m': {'password':'Mirantis123',
         'roles':{'g':None,'t1':'admin','t2':'member'}
@@ -74,6 +74,10 @@ users={
        # Member in t1 tenant and admin in t2 tenant
        't1mt2a': {'password':'Mirantis123',
         'roles':{'g':None,'t1':'member','t2':'admin'}
+        },
+       # fake
+       'fake': {'password':'superuser',
+        'roles':{'g':'admin','t1':'admin','t2':'member'}
         },
        }
 
