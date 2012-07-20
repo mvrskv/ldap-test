@@ -7,7 +7,7 @@ service_url = 'http://172.18.67.57:5000/v2.0/'
 
 
 #===============================================================================
-# tenants = 
+# tenants_ID = 
 # (
 #    'tenant_1_name', 
 #    'tenant_2_name', 
@@ -35,49 +35,117 @@ tenants = ('t1', 't2')
 #===============================================================================
 
 users={
-        # Global admin
-        #-------------------------------------- 'ga': {'password':'Mirantis123',
-        #----------------------------- 'roles':{'g':'admin','t1':None,'t2':None}
-        #-------------------------------------------------------------------- },
-        #------------------------------------------------------- # Global member
-        #-------------------------------------- 'gm': {'password':'Mirantis123',
-        #---------------------------- 'roles':{'g':'member','t1':None,'t2':None}
-        #-------------------------------------------------------------------- },
         # Admin in t1 tenant
-       't1a': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'admin','t2':None}
+       't1a': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':True, 't2':False},
+                'test_auth_wo_spec_tenant': 
+                True,
+                'test_get_available_tenants': 
+                set(['t1']),
+                'test_get_roles_in_tenant': 
+                {'t1':set(['admin']), 't2':False},
+            }
         },
-       # Member in t1 tenant
-       't1m': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'member','t2':None}
+        # Member in t1 tenant
+       't1m': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':True, 't2':False},
+                'test_auth_wo_spec_tenant': 
+                True,
+                'test_get_available_tenants': 
+                set(['t1']),
+                'test_get_roles_in_tenant': 
+                {'t1':set(['member']), 't2':False},
+            }
         },
-       # Admin in t2 tenant (and has membership but has no roles in t1) 
-       't2a': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':None,'t2':'admin'}
+        # Admin in t2 tenant (and has membership but has no roles in t1) 
+       't2a': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':False, 't2':True},
+                'test_auth_wo_spec_tenant': 
+                True,
+                'test_get_available_tenants': 
+                set(['t2']),
+                'test_get_roles_in_tenant': 
+                {'t1':False, 't2':set(['admin'])},
+            }
         },
-       # Member in t2 tenant (and has membership but has no roles in t1) 
-       't2m': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':None,'t2':'member'}
+        # Member in t2 tenant (and has membership but has no roles in t1) 
+       't2m': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':False, 't2':True},
+                'test_auth_wo_spec_tenant': 
+                True,
+                'test_get_available_tenants': 
+                set(['t2']),
+                'test_get_roles_in_tenant': 
+                {'t1':False, 't2':set(['member'])},
+            }
         },
-        #-------------------------------- # Global admin and member in t1 tenant
-        #----------------------------------- 'gat1m': {'password':'Mirantis123',
-        #------------------------- 'roles':{'g':'admin','t1':'member','t2':None}
-        #-------------------------------------------------------------------- },
-        #-------------------------------- # Global member and admin in t1 tenant
-        #----------------------------------- 'gmt1a': {'password':'Mirantis123',
-        #------------------------- 'roles':{'g':'member','t1':'admin','t2':None}
-        #-------------------------------------------------------------------- },
         # Admin in t1 tenant and member in t2 tenant
-       't1at2m': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'admin','t2':'member'}
+       't1at2m': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':True, 't2':True},
+                'test_auth_wo_spec_tenant': 
+                True,
+                'test_get_available_tenants': 
+                set(['t1','t2']),
+                'test_get_roles_in_tenant': 
+                {'t1':set(['admin']), 't2':set(['member'])},
+            }
         },
-       # Member in t1 tenant and admin in t2 tenant
-       't1mt2a': {'password':'Mirantis123',
-        'roles':{'g':None,'t1':'member','t2':'admin'}
+        # Member in t1 tenant and admin in t2 tenant
+       't1mt2a': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':True, 't2':True},
+                'test_auth_wo_spec_tenant': 
+                True,
+                'test_get_available_tenants': 
+                set(['t1','t2']),
+                'test_get_roles_in_tenant': 
+                {'t1':set(['member']), 't2':set(['admin'])},
+            }
         },
-       # fake
-       'fake': {'password':'superuser',
-        'roles':{'g':'admin','t1':'admin','t2':'member'}
+        # fake user
+       'fake': 
+       {
+            'password':'Superuser',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant': 
+                {'t1':False, 't2':False},
+                'test_auth_wo_spec_tenant': 
+                False,
+                'test_get_available_tenants': 
+                False,
+                'test_get_roles_in_tenant': 
+                {'t1':False, 't2':False},
+            }
         },
        }
 

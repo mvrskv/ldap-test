@@ -21,33 +21,48 @@ for u in config.users:
     # ... in each tenant
     for t in config.tenants:
         # define test function for authorization with specifying a tenant for each user in each tenant
-        def auth_w_spec_tenant(self, username = u, password = users[u]['password'], tenant_name = t):
-            "Authorization in tenant "
-            token = gettoken(username, password, tenant_name)
-            #------------------- print token['access']['token']['id'] + ' ... '
-            self.assert_(token['access']['token']['id'])
-            # сравнить имя пользователя с полученным в токене - в конфиг написать expected-result
-            # expected result может быть exception
+        def test_auth_w_spec_tenant(self, username = u, password = users[u]['password'], tenant_id = t):
+            "Authorization in tenant_id "
+            # attribute for extracting expected result
+            testname = 'test_auth_w_spec_tenant'
+            try:
+                token = gettoken(username, password, tenant_id)
+                if token['access']['user']['name'] == username:
+                    result = True
+            except:
+                result = False
+            # get expected_result in config
+            expected_result = config.users[username]['expected_result'][testname][tenant_id]
+            self.assertEqual(expected_result, result)
         # Setting up docstring for this test
-        auth_w_spec_tenant.__doc__ += t + " for user " + u
+        test_auth_w_spec_tenant.__doc__ += '"' + t + '" for user "' + u + '" must be "' + str(config.users[u]['expected_result'][test_auth_w_spec_tenant.__name__][t]) + '"'
         # Setting up test name
-        auth_w_spec_tenant.__name__ = "test_" + auth_w_spec_tenant.__name__ + '_' + u + '_'+ t
+        test_auth_w_spec_tenant.__name__ += '_' + u + '_in_' + t
         # setting up test as unittest-based class
-        setattr(TestGetUserInfo, auth_w_spec_tenant.__name__, auth_w_spec_tenant)
+        setattr(TestGetUserInfo, test_auth_w_spec_tenant.__name__, test_auth_w_spec_tenant)
         # delete pointer for test from current namespace
-        del auth_w_spec_tenant
+        del test_auth_w_spec_tenant
 
 
+# GLOBAL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Definition tests for each user ...
+for u in config.users:
     # define test function for authorization without specifying a tenant for each user
     def test_auth_wo_spec_tenant(self, username = u, password = users[u]['password']):
         "Authorization without specifying tenant for user "
-        token = gettoken(username, password)
-        #------------------------ print token['access']['token']['id'] + ' ... '
-        self.assert_(token['access']['token']['id'])
-        # сравнить имя пользователя с полученным в токене - в конфиг написать expected-result
-        # expected result может быть exception
+        # attribute for extracting expected result
+        testname = 'test_auth_wo_spec_tenant'
+        try:
+            token = gettoken(username, password)
+            if token['access']['user']['name'] == username:
+                result = True
+        except:
+            result = False
+        # get expected_result inconfig
+        expected_result = config.users[username]['expected_result'][testname]
+        self.assertEqual(expected_result, result)
     # Setting up docstring for this test
-    test_auth_wo_spec_tenant.__doc__ += u
+    test_auth_wo_spec_tenant.__doc__ += '"' + u + '" must be "' + str(config.users[u]['expected_result'][test_auth_wo_spec_tenant.__name__]) + '"' 
     # Setting up test name
     test_auth_wo_spec_tenant.__name__ += '_' + u
     # setting up test as unittest-based class
@@ -56,47 +71,74 @@ for u in config.users:
     del test_auth_wo_spec_tenant
 
 
+# GLOBAL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Definition tests for each user ...
+for u in config.users:
     # define test function for getting avalable tenants for user
-    def test_get_avalable_tenants_for_token(self, username = u, password = users[u]['password']):
+    def test_get_available_tenants(self, username = u, password = users[u]['password']):
         "Avalable tenants for user "
-        token = gettoken(username, password)
-        tenants = gettenants(token)
-        #------------------------------------------------------- print username,
-        #---------------------------------------------------- for tt in tenants:
-            #------------------------------------------ print tt['name'] + ', ',
-        #----------------------------------------------------------------- print
-        self.assert_(tenants)
-        # сравнить список токенов в конфиге с полученным  - в конфиг написать expected-result
-        # expected result может быть exception
+        # attribute for extracting expected result
+        testname = 'test_get_available_tenants'
+        try:
+            token = gettoken(username, password)
+            if token['access']['user']['name'] == username:
+                try:
+                    tenants = gettenants(token)
+                    result = set()
+                    for tt in tenants:
+                        result.add(tt['name'])
+                except:
+                    result = False
+        except:
+            result = False
+        # get expected_result inconfig
+        expected_result = config.users[username]['expected_result'][testname]
+        self.assertEqual(expected_result, result)
     # Setting up docstring for this test
-    test_get_avalable_tenants_for_token.__doc__ += u
+    test_get_available_tenants.__doc__ += '"' + u + '" must be "' + str(config.users[u]['expected_result'][test_get_available_tenants.__name__]) + '"'
     # Setting up test name
-    test_get_avalable_tenants_for_token.__name__ += '_' + u
+    test_get_available_tenants.__name__ += '_' + u
     # setting up test as unittest-based class
-    setattr(TestGetUserInfo, test_get_avalable_tenants_for_token.__name__, test_get_avalable_tenants_for_token)
+    setattr(TestGetUserInfo, test_get_available_tenants.__name__, test_get_available_tenants)
     # delete pointer for test from current namespace
-    del test_get_avalable_tenants_for_token
+    del test_get_available_tenants
 
 
-    # define test function for getting roles in avalable tenants for user
-    def test_get_avalable_tenants_for_token(self, username = u, password = users[u]['password']):
-        "Roles in avalable tenants for user "
-        token = gettoken(username, password)
-        tenants = gettenants(token)
-        for tt in tenants:
-            roles = getroles (token, tt)
-        self.assert_(roles)
-        # сравнить список токенов в конфиге с полученным  - в конфиг написать expected-result
-        # expected result может быть exception
-    # Setting up docstring for this test
-    test_get_avalable_tenants_for_token.__doc__ += u
-    # Setting up test name
-    test_get_avalable_tenants_for_token.__name__ += '_' + u
-    # setting up test as unittest-based class
-    setattr(TestGetUserInfo, test_get_avalable_tenants_for_token.__name__, test_get_avalable_tenants_for_token)
-    # delete pointer for test from current namespace
-    del test_get_avalable_tenants_for_token
-
+# GLOBAL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+# Definition tests for each user ...
+for u in config.users:
+    for t in config.tenants:
+        # define test function for getting available tenants for user
+        def test_get_roles_in_tenant(self, username = u, password = users[u]['password'], tenant_id = t):
+            "Roles in tenant "
+            # attribute for extracting expected result
+            testname = 'test_get_roles_in_tenant'
+            result = set()
+            try:
+                token = gettoken(username, password)
+                if token['access']['user']['name'] == username:
+                    try:
+                        roles = getroles (token, tenant_id)
+                        if roles:
+                            for r in roles['access']['user']['roles']:
+                                result.add(r['name'])
+                        else:
+                            result = False
+                    except:
+                        result = False
+            except:
+                result = False
+            # get expected_result inconfig
+            expected_result = config.users[username]['expected_result'][testname][tenant_id]
+            self.assertEqual(expected_result, result)
+        # Setting up docstring for this test
+        test_get_roles_in_tenant.__doc__ += "'" + t + '" for user "' + u + '" must be "' + str(config.users[u]['expected_result'][test_get_roles_in_tenant.__name__][t]) + '"'
+        # Setting up test name
+        test_get_roles_in_tenant.__name__ += '_' + u + '_in_' + t
+        # setting up test as unittest-based class
+        setattr(TestGetUserInfo, test_get_roles_in_tenant.__name__, test_get_roles_in_tenant)
+        # delete pointer for test from current namespace
+        del test_get_roles_in_tenant
 
 
 if __name__ == "__main__":

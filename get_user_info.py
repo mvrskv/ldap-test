@@ -47,10 +47,10 @@ def gettenants(token):
     tenants = getreq(url, headers)['tenants']
     return tenants
 
-def getroles(token, tenant):
+def getroles(token, tenant_id):
     '''POST / tokens. Get list all of the roles for the token in the tenant'''
     token_id = token['access']['token']['id']
-    tenant_id = tenant['id']
+    #tenant_id = tenant['id']
     headers = {'X-Auth-Token': token_id,
                'user-agent': 'python-keystoneclient',
                'content-type': 'application/json'}
