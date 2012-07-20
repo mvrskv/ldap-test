@@ -19,7 +19,7 @@ class TestGetUserInfo(unittest.TestCase):
 # Definition tests for each user ...
 for u in config.users:
     # ... in each tenant
-    for t in config.tenants:
+    for t in config.tenant_ids:
         # define test function for authorization with specifying a tenant for each user in each tenant
         def test_auth_w_spec_tenant(self, username = u, password = users[u]['password'], tenant_id = t):
             "Authorization in tenant_id "
@@ -107,7 +107,7 @@ for u in config.users:
 # GLOBAL !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 # Definition tests for each user ...
 for u in config.users:
-    for t in config.tenants:
+    for t in config.tenant_ids:
         # define test function for getting available tenants for user
         def test_get_roles_in_tenant(self, username = u, password = users[u]['password'], tenant_id = t):
             "Roles in tenant "
