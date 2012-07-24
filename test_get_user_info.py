@@ -21,10 +21,11 @@ for u in config.users:
     # ... in each tenant
     for t in config.tenant_ids:
         # define test function for authorization with specifying a tenant for each user in each tenant
-        def test_auth_w_spec_tenant(self, username = u, password = users[u]['password'], tenant_id = t):
-            "Authorization in tenant_id "
+        def test_auth_w_spec_tenant(self, username = u, password = users[u]['password'], tenant = t):
+            "Authorization in tenant "
             # attribute for extracting expected result
             testname = 'test_auth_w_spec_tenant'
+            tenant_id = config.tenant_ids[t]
             try:
                 token = gettoken(username, password, tenant_id)
                 if token['access']['user']['name'] == username:
@@ -32,7 +33,7 @@ for u in config.users:
             except:
                 result = False
             # get expected_result in config
-            expected_result = config.users[username]['expected_result'][testname][tenant_id]
+            expected_result = config.users[username]['expected_result'][testname][tenant]
             self.assertEqual(expected_result, result)
         # Setting up docstring for this test
         test_auth_w_spec_tenant.__doc__ += '"' + t + '" for user "' + u + '" must be "' + str(config.users[u]['expected_result'][test_auth_w_spec_tenant.__name__][t]) + '"'
@@ -109,7 +110,7 @@ for u in config.users:
 for u in config.users:
     for t in config.tenant_ids:
         # define test function for getting available tenants for user
-        def test_get_roles_in_tenant(self, username = u, password = users[u]['password'], tenant_id = t):
+        def test_get_roles_in_tenant(self, username = u, password = users[u]['password'], tenant = t):
             "Roles in tenant "
             # attribute for extracting expected result
             testname = 'test_get_roles_in_tenant'
@@ -129,7 +130,7 @@ for u in config.users:
             except:
                 result = False
             # get expected_result inconfig
-            expected_result = config.users[username]['expected_result'][testname][tenant_id]
+            expected_result = config.users[username]['expected_result'][testname][tenant]
             self.assertEqual(expected_result, result)
         # Setting up docstring for this test
         test_get_roles_in_tenant.__doc__ += "'" + t + '" for user "' + u + '" must be "' + str(config.users[u]['expected_result'][test_get_roles_in_tenant.__name__][t]) + '"'
