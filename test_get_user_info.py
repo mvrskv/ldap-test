@@ -25,7 +25,7 @@ for u in config.users:
             "Authorization in tenant "
             # attribute for extracting expected result
             testname = 'test_auth_w_spec_tenant'
-            tenant_id = config.tenant_ids[t]
+            tenant_id = config.tenant_ids[tenant]
             try:
                 token = gettoken(username, password, tenant_id)
                 if token['access']['user']['name'] == username:
@@ -114,6 +114,7 @@ for u in config.users:
             "Roles in tenant "
             # attribute for extracting expected result
             testname = 'test_get_roles_in_tenant'
+            tenant_id = config.tenant_ids[tenant]
             result = set()
             try:
                 token = gettoken(username, password)
