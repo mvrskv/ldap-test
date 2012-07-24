@@ -131,7 +131,7 @@ users={
                 'test_auth_w_spec_tenant':                  {'t1':True, 't2':False},
                 'test_auth_wo_spec_tenant':                 True,
                 'test_get_available_tenants':               set(['t1']),
-                'test_get_roles_in_tenant':                 {'t1':False, 't2':False},
+                'test_get_roles_in_tenant':                 {'t1':set([]), 't2':False},
             }
         },
         # user in tenant 1 without specified role
@@ -143,7 +143,7 @@ users={
                 'test_auth_w_spec_tenant':                  {'t1':False, 't2':True},
                 'test_auth_wo_spec_tenant':                 True,
                 'test_get_available_tenants':               set(['t2']),
-                'test_get_roles_in_tenant':                 {'t1':False, 't2':False},
+                'test_get_roles_in_tenant':                 {'t1':False, 't2':set([])},
             }
         },
        }
