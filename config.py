@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 
-service_url = 'http://172.18.67.57:5000/v2.0/'
+service_url = 'http://172.18.67.60:5000/v2.0/'
 #admin_token = 'JOPxsy8WmrFEiTxR_b_w'
 
 
@@ -16,12 +16,8 @@ service_url = 'http://172.18.67.57:5000/v2.0/'
 #===============================================================================
 
 tenant_ids = {
-              't1':'t1',
-              't2':'t2'
-              #=================================================================
-              # 't1': 'd547dc29ffbf478eaec6a8bc59484756', 
-              # 't2': '74f1a3e00f1c42ef8f191aab49f5f3bf'
-              #=================================================================
+            't1': '2534d910499a4eb0adfb150ed4b77e15', 
+            't2': 'e254970338f34201bab9394f0fce3f24'
               } 
 
 
@@ -63,7 +59,7 @@ users={
                 'test_auth_w_spec_tenant':                  {'t1':True, 't2':False},
                 'test_auth_wo_spec_tenant':                 True,
                 'test_get_available_tenants':               set(['t1']),
-                'test_get_roles_in_tenant':                 {'t1':set(['member']), 't2':False},
+                'test_get_roles_in_tenant':                 {'t1':set(['Member']), 't2':False},
             }
         },
         # Admin in t2 tenant (and has membership but has no roles in t1) 
@@ -87,7 +83,7 @@ users={
                 'test_auth_w_spec_tenant':                 {'t1':False, 't2':True},
                 'test_auth_wo_spec_tenant':                True,
                 'test_get_available_tenants':              set(['t2']),
-                'test_get_roles_in_tenant':                {'t1':False, 't2':set(['member'])},
+                'test_get_roles_in_tenant':                {'t1':False, 't2':set(['Member'])},
             }
         },
         # Admin in t1 tenant and member in t2 tenant
@@ -99,7 +95,7 @@ users={
                 'test_auth_w_spec_tenant':                 {'t1':True, 't2':True},
                 'test_auth_wo_spec_tenant':                True,
                 'test_get_available_tenants':              set(['t1','t2']),
-                'test_get_roles_in_tenant':                {'t1':set(['admin']), 't2':set(['member'])},
+                'test_get_roles_in_tenant':                {'t1':set(['admin']), 't2':set(['Member'])},
             }
         },
         # Member in t1 tenant and admin in t2 tenant
@@ -111,7 +107,7 @@ users={
                 'test_auth_w_spec_tenant':                  {'t1':True, 't2':True},
                 'test_auth_wo_spec_tenant':                 True,
                 'test_get_available_tenants':               set(['t1','t2']),
-                'test_get_roles_in_tenant':                 {'t1':set(['member']), 't2':set(['admin'])},
+                'test_get_roles_in_tenant':                 {'t1':set(['Member']), 't2':set(['admin'])},
             }
         },
         # fake user
@@ -123,6 +119,30 @@ users={
                 'test_auth_w_spec_tenant':                  {'t1':False, 't2':False},
                 'test_auth_wo_spec_tenant':                 False,
                 'test_get_available_tenants':               False,
+                'test_get_roles_in_tenant':                 {'t1':False, 't2':False},
+            }
+        },
+        # user in tenant 1 without specified role
+       't1wor': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant':                  {'t1':True, 't2':False},
+                'test_auth_wo_spec_tenant':                 True,
+                'test_get_available_tenants':               set(['t1']),
+                'test_get_roles_in_tenant':                 {'t1':False, 't2':False},
+            }
+        },
+        # user in tenant 1 without specified role
+       't2wor': 
+       {
+            'password':'Mirantis123',
+            'expected_result':
+            {
+                'test_auth_w_spec_tenant':                  {'t1':False, 't2':True},
+                'test_auth_wo_spec_tenant':                 True,
+                'test_get_available_tenants':               set(['t2']),
                 'test_get_roles_in_tenant':                 {'t1':False, 't2':False},
             }
         },
